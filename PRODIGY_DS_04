@@ -1,0 +1,19 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+# Load the dataset
+data = pd.read_csv("twitter-entity-sentiment.csv")
+
+# Perform sentiment analysis
+sid = SentimentIntensityAnalyzer()
+data['sentiment'] = data['text'].apply(lambda x: sid.polarity_scores(x)['compound'])
+
+# Visualize sentiment distribution
+plt.figure(figsize=(10, 6))
+sns.histplot(data=data, x='sentiment', bins=30, kde=True, color='skyblue')
+plt.title('Sentiment Distribution in Twitter Data')
+plt.xlabel('Sentiment Score')
+plt.ylabel('Frequency')
+plt.show()
